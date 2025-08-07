@@ -1,4 +1,5 @@
-import pomegranate
+# outdated pomegranate code
+""" import pomegranate
 
 from collections import Counter
 
@@ -33,9 +34,52 @@ def generate_sample():
 # Compute distribution of Appointment given that train is delayed
 N = 10000
 data = []
+
+# Repeat sampling 10,000 times
 for i in range(N):
+
+    # Generate a sample based on the function that we defined earlier
     sample = generate_sample()
+    
+    # If, in this sample, the variable of Train has the value delayed, save the sample. Since we are interested interested in the probability distribution of Appointment given that the train is delayed, we discard the sampled where the train was on time.
     if sample["train"] == "delayed":
         data.append(sample["appointment"])
-print(Counter(data))
 
+# Count how many times each value of the variable appeared. We can later normalize by dividing the results by the total number of saved samples to get the approximate probabilities of the variable that add up to 1.
+print(Counter(data)) """
+
+# pgmpy code
+
+from pgmpy.sampling import BayesianModelSampling
+from collections import Counter
+from model import model
+
+
+# REJECTION SAMPLING EXAMPLE #
+
+# Create a sampler object of our Bayesian model
+sampler = BayesianModelSampling(model)
+
+# Function to generate a sample
+def generate_samples(num):
+   # Generate samples of size num
+   samples = sampler.forward_sample(size=num)
+   # print(samples)
+   return samples
+
+N = 10000
+samples = generate_samples(N)
+
+
+# Access sample's data
+samples_dict = samples.to_dict('records')
+
+# Print the number of times appontment was 'attended' and 'missed'
+data = []
+for sample in samples_dict:
+   if sample['train'] == "delayed":
+       data.append(sample['appointment'])
+
+
+# Count data and display resuly
+print(Counter(data))

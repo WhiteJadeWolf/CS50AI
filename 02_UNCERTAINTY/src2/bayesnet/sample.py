@@ -81,5 +81,5 @@ for sample in samples_dict:
        data.append(sample['appointment'])
 
 
-# Count data and display resuly
+# Count data and display result
 print(Counter(data))

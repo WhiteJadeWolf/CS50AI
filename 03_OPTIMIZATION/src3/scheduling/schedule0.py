@@ -2,9 +2,9 @@
 Naive backtracking search without any heuristics or inference.
 """
 
-VARIABLES = ["A", "B", "C", "D", "E", "F", "G"]
+VARIABLES = ["A", "B", "C", "D", "E", "F", "G"]  # different classes
 CONSTRAINTS = [
-    ("A", "B"),
+    ("A", "B"),  # means A and B can't have classes/test on the same day
     ("A", "C"),
     ("B", "C"),
     ("B", "D"),
@@ -31,8 +31,8 @@ def backtrack(assignment):
         new_assignment = assignment.copy()
         new_assignment[var] = value
         if consistent(new_assignment):
-            result = backtrack(new_assignment)
-            if result is not None:
+            result = backtrack(new_assignment) # recursion
+            if result is not None: # if result is not failure
                 return result
     return None
 
@@ -61,5 +61,5 @@ def consistent(assignment):
     return True
 
 
-solution = backtrack(dict())
+solution = backtrack(dict()) # initially calls on empty assignment , i.e. no variables are assigned any value yet
 print(solution)

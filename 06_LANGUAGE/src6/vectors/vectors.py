@@ -3,7 +3,7 @@ from scipy.spatial.distance import cosine
 import math
 import numpy as np
 
-with open("words.txt") as f:
+with open("words.txt", encoding="utf-8") as f:
     words = dict()
     for line in f:
         row = line.split()
@@ -25,5 +25,4 @@ def closest_words(embedding):
 
 
 def closest_word(embedding):
-    return closest_words(embedding)[0]
-
+    return closest_words(embedding)[1]    # as the first-closest word is the word itself
